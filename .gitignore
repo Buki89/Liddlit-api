@@ -1,0 +1,8 @@
+dist
+node_modules
+.env.*
+src/migrations
+*workspace
+yarn-error.log
+.nvmrc
+ormconfig.json
