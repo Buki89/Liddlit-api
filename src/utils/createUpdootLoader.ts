@@ -1,11 +1,11 @@
 import DataLoader from "dataloader";
-import { Updoot } from "../entities/Updoot";
+import { Vote } from "../vote";
 
 export const createUpdootLoader = () =>
-  new DataLoader<{ postId: number; userId: number }, Updoot | null>(
+  new DataLoader<{ postId: number; userId: number }, Vote | null>(
     async (keys) => {
-      const updoots = await Updoot.findByIds(keys as any);
-      const updootIdsToUpdoot: Record<string, Updoot> = {};
+      const updoots = await Vote.findByIds(keys as any);
+      const updootIdsToUpdoot: Record<string, Vote> = {};
       updoots.forEach((updoot) => {
         updootIdsToUpdoot[`${updoot.userId}|${updoot.postId}`] = updoot;
       });

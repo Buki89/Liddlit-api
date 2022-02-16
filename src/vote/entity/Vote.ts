@@ -1,11 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { Post } from "./Post";
-import { User } from "./User";
+import { User } from "../../user";
+import { Post } from "../../post";
 
 @ObjectType()
 @Entity()
-export class Updoot extends BaseEntity {
+class Vote extends BaseEntity {
   @Field()
   @Column({ type: "int" })
   value: number;
@@ -26,3 +26,5 @@ export class Updoot extends BaseEntity {
   @ManyToOne(() => Post, (post) => post.updoots, { onDelete: "CASCADE" })
   post: Post;
 }
+
+export default Vote;
