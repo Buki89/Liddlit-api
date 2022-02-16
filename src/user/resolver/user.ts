@@ -1,4 +1,4 @@
-import { MyContext } from "../types";
+import { MyContext } from "../../types";
 import {
   Arg,
   Ctx,
@@ -12,16 +12,16 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { User } from "../entities/User";
 import argon2 from "argon2";
-import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
-import { UsernamePasswordInput } from "./UsernamePasswordInput";
-import { validateRegister } from "../utils/validateRegister";
-import { sendEmail } from "../utils/sendEmail";
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../../constants";
+import { UsernamePasswordInput } from "../../resolvers/UsernamePasswordInput";
+import { validateRegister } from "../../utils/validateRegister";
+import { sendEmail } from "../../utils/sendEmail";
 import { v4 } from "uuid";
 import { getConnection } from "typeorm";
-import { isAuth } from "../middleware/isAuth";
-import { Follow } from "../entities/Follow";
+import { isAuth } from "../../middleware/isAuth";
+import User from "../entity/User";
+import { Follow } from "../../follow";
 
 @ObjectType()
 class FieldError {
@@ -42,7 +42,7 @@ class UserResponse {
 }
 
 @Resolver(User)
-export class UserResolver {
+class UserResolver {
   @FieldResolver(() => String)
   email(@Root() user: User, @Ctx() { req }: MyContext) {
     // this is current user and its okay to show them its own email
@@ -272,3 +272,5 @@ export class UserResolver {
     });
   }
 }
+
+export default UserResolver;

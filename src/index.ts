@@ -10,18 +10,14 @@ import path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
+import { Community, CommunityResolver } from "./community";
 import { COOKIE_NAME, __prod__ } from "./constants";
-import { Community } from "./entities/Community";
-import { Follow } from "./entities/Follow";
-import { Post } from "./entities/Post";
-import { Updoot } from "./entities/Updoot";
-import { User } from "./entities/User";
-import { CommunityResolver } from "./resolvers/community";
-import { FollowResolver } from "./resolvers/follow";
-import { PostResolver } from "./resolvers/post";
-import { UserResolver } from "./resolvers/user";
+import { Follow, FollowResolver } from "./follow";
+import { Post, PostResolver } from "./post";
+import { User, UserResolver } from "./user";
 import { createUpdootLoader } from "./utils/createUpdootLoader";
 import { createUserLoader } from "./utils/createUserLoader";
+import { Vote } from "./vote";
 
 const main = async () => {
   await createConnection({
@@ -30,7 +26,7 @@ const main = async () => {
     logging: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     synchronize: true,
-    entities: [Post, User, Updoot, Community, Follow],
+    entities: [Post, User, Vote, Community, Follow],
   });
   //await conn.runMigrations();
 

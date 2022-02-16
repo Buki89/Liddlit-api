@@ -8,13 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Follow } from "./Follow";
-import { Post } from "./Post";
-import { Updoot } from "./Updoot";
+import { Post } from "../../post";
+import { Vote } from "../../vote";
+import { Follow } from "../../follow";
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+class User extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
@@ -22,8 +22,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Post, (post) => post.creator)
   posts: Post[];
 
-  @OneToMany(() => Updoot, (updoot) => updoot.user)
-  updoots: Updoot[];
+  @OneToMany(() => Vote, (updoot) => updoot.user)
+  updoots: Vote[];
 
   @Field(() => [Follow])
   @OneToMany(() => Follow, (follow) => follow.user)
@@ -48,3 +48,5 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export default User;
