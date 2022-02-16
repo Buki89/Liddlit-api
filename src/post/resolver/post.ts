@@ -1,4 +1,4 @@
-import { MyContext } from "../types";
+import { MyContext } from "../../types";
 import {
   Arg,
   Ctx,
@@ -14,10 +14,10 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { Post } from "../entities/Post";
-import { Updoot } from "../entities/Updoot";
-import { isAuth } from "../middleware/isAuth";
-import { User } from "../entities/User";
+import { isAuth } from "../../middleware/isAuth";
+import { User } from "../../user";
+import { Vote } from "../../vote";
+import Post from "../entity/Post";
 
 @InputType()
 class PostInput {
@@ -39,7 +39,7 @@ class PaginatedPosts {
   hasMore: boolean;
 }
 @Resolver(Post)
-export class PostResolver {
+class PostResolver {
   @FieldResolver(() => String)
   textSnippet(@Root() root: Post) {
     return root.text.slice(0, 50);
@@ -77,7 +77,7 @@ export class PostResolver {
     const userId = req.session.userId;
     const realValue = isUpdoot ? 1 : -1;
 
-    const updoot = await Updoot.findOne({ where: { postId, userId } });
+    const updoot = await Vote.findOne({ where: { postId, userId } });
     // the user has voted on the post before
     // and they are changing their vote
     if (updoot && updoot.value !== realValue) {
@@ -234,3 +234,5 @@ export class PostResolver {
     return true;
   }
 }
+
+export default PostResolver;

@@ -9,12 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Updoot } from "./Updoot";
-import { User } from "./User";
+import { Vote } from "../../vote";
+import { User } from "../../user";
 
 @ObjectType()
 @Entity()
-export class Post extends BaseEntity {
+class Post extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
@@ -42,8 +42,8 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   creator: User;
 
-  @OneToMany(() => Updoot, (updoot) => updoot.post)
-  updoots: Updoot[];
+  @OneToMany(() => Vote, (updoot) => updoot.post)
+  updoots: Vote[];
 
   @Field(() => String)
   @CreateDateColumn()
@@ -53,3 +53,5 @@ export class Post extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export default Post;
