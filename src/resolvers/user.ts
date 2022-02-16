@@ -4,11 +4,13 @@ import {
   Ctx,
   Field,
   FieldResolver,
+  Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
   Root,
+  UseMiddleware,
 } from "type-graphql";
 import { User } from "../entities/User";
 import argon2 from "argon2";
@@ -18,6 +20,8 @@ import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
 import { getConnection } from "typeorm";
+import { isAuth } from "../middleware/isAuth";
+import { Follow } from "../entities/Follow";
 
 @ObjectType()
 class FieldError {
@@ -55,7 +59,7 @@ export class UserResolver {
       return null;
     }
 
-    return User.findOne(req.session.userId);
+    return User.findOne(req.session.userId, { relations: ["follow"] });
   }
 
   @Mutation(() => UserResponse)
@@ -115,6 +119,29 @@ export class UserResolver {
     req.session.userId = user.id;
 
     return { user };
+  }
+
+  @Mutation(() => Follow)
+  @UseMiddleware(isAuth)
+  async joinCommunity(
+    @Arg("communityId", () => Int) communityId: number,
+    @Ctx() { req }: MyContext
+  ) {
+    const follow = await Follow.findOne({
+      userId: req.session.userId,
+      communityId,
+    });
+
+    if (follow) {
+      throw new Error(
+        `User with id: ${req.session.userId} already follows the community with id: ${communityId} `
+      );
+    }
+
+    return Follow.create({
+      userId: req.session.userId,
+      communityId: communityId,
+    }).save();
   }
 
   @Mutation(() => Boolean)
