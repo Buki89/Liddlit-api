@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Follow } from "./Follow";
 import { Post } from "./Post";
 import { Updoot } from "./Updoot";
 
@@ -23,6 +24,10 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Updoot, (updoot) => updoot.user)
   updoots: Updoot[];
+
+  @Field(() => [Follow])
+  @OneToMany(() => Follow, (follow) => follow.user)
+  follow: Follow[];
 
   @Field()
   @Column({ unique: true })
@@ -43,31 +48,3 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-
-// MIKRO ORM
-// @ObjectType()
-// @Entity()
-// export class User {
-//   @Field(() => String)
-//   @PrimaryKey({ type: "uuid" })
-//   id = v4();
-
-//   @Field(() => String)
-//   @Property({ type: "date" })
-//   createdAt = new Date();
-
-//   @Field(() => String)
-//   @Property({ type: "date", onUpdate: () => new Date() })
-//   updatedAt = new Date();
-
-//   @Field()
-//   @Property({ type: "text", unique: true })
-//   username!: string;
-
-//   @Field()
-//   @Property({ type: "text", unique: true })
-//   email!: string;
-
-//   @Property({ type: "text" })
-//   password!: string;
-// }
