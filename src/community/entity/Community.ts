@@ -8,11 +8,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Follow } from "./Follow";
+import { Follow } from "../../follow";
 
 @ObjectType()
 @Entity()
-export class Community extends BaseEntity {
+class Community extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
@@ -36,3 +36,5 @@ export class Community extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+export default Community;

@@ -1,4 +1,4 @@
-import { MyContext } from "../types";
+import { MyContext } from "../../types";
 import {
   Arg,
   Ctx,
@@ -8,11 +8,11 @@ import {
   Resolver,
   UseMiddleware,
 } from "type-graphql";
-import { Community } from "../entities/Community";
-import { isAuth } from "../middleware/isAuth";
+import { isAuth } from "../../middleware/isAuth";
+import Community from "../entity/Community";
 
 @Resolver(Community)
-export class CommunityResolver {
+class CommunityResolver {
   @Query(() => Community, { nullable: true })
   community(@Arg("id", () => Int) id: number): Promise<Community | undefined> {
     return Community.findOne(id);
@@ -40,3 +40,5 @@ export class CommunityResolver {
     }).save();
   }
 }
+
+export default CommunityResolver;
