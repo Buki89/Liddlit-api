@@ -26,6 +26,9 @@ class PostInput {
 
   @Field()
   text: string;
+
+  @Field(() => Int)
+  communityId: number;
 }
 
 @ObjectType()
