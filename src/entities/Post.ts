@@ -38,7 +38,7 @@ export class Post extends BaseEntity {
   @Column()
   creatorId: number;
 
-  @Field()
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.posts)
   creator: User;
 
@@ -53,24 +53,3 @@ export class Post extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-
-//MIKROORM
-// @ObjectType()
-// @Entity()
-// export class Post {
-//   @Field(() => String)
-//   @PrimaryKey({ type: "uuid" })
-//   id = v4();
-
-//   @Field(() => String)
-//   @Property({ type: "date" })
-//   createdAt = new Date();
-
-//   @Field(() => String)
-//   @Property({ type: "date", onUpdate: () => new Date() })
-//   updatedAt = new Date();
-
-//   @Field()
-//   @Property({ type: "text" })
-//   title!: string;
-// }
