@@ -1,8 +1,8 @@
 import { Arg, Int, Query, Resolver } from "type-graphql";
-import { Follow } from "../entities/Follow";
+import Follow from "../entity/Follow";
 
 @Resolver(Follow)
-export class FollowResolver {
+class FollowResolver {
   @Query(() => Follow, { nullable: true })
   async follow(
     @Arg("userId", () => Int) userId: number,
@@ -20,3 +20,5 @@ export class FollowResolver {
     return follow;
   }
 }
+
+export default FollowResolver;

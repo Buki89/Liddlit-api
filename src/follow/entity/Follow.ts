@@ -1,11 +1,11 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { Community } from "./Community";
-import { User } from "./User";
+import { User } from "../../user";
+import { Community } from "../../community";
 
 @ObjectType()
 @Entity()
-export class Follow extends BaseEntity {
+class Follow extends BaseEntity {
   @Field(() => Int)
   @PrimaryColumn()
   userId: number;
@@ -24,3 +24,5 @@ export class Follow extends BaseEntity {
   })
   community: Community;
 }
+
+export default Follow;
